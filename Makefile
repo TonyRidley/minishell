@@ -6,6 +6,14 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iincludes -Idependencies/libft/includes
 LDFLAGS = -lreadline
 
+# Homebrew installs readline outside the default macOS include and library
+# search paths. Keep the default flags for other Unix-like systems.
+READLINE_PREFIX = $(shell brew --prefix readline 2>/dev/null)
+ifneq ($(READLINE_PREFIX),)
+CFLAGS += -I$(READLINE_PREFIX)/include
+LDFLAGS += -L$(READLINE_PREFIX)/lib
+endif
+
 # Libft
 LIB_DIR = dependencies/libft
 LIBFT = $(LIB_DIR)/libft.a
